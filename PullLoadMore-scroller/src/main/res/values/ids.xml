@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="target" type="id" />
+    <item name="header" type="id" />
+    <item name="footer" type="id" />
+</resources>
