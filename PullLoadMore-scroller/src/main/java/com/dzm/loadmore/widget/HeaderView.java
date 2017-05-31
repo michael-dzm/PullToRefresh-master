@@ -74,7 +74,7 @@ public class HeaderView extends FrameLayout implements OnPullTrigger, OnPullRefr
         progressBar.setVisibility(GONE);
         ivSuccess.setVisibility(GONE);
         if(-y > getMeasuredHeight()){
-            tvRefresh.setText("松开刷新");
+            tvRefresh.setText(getResources().getString(R.string.text_release_to_refresh));
             if(!rotated){
                 ivArrow.clearAnimation();
                 ivArrow.startAnimation(rotateUp);
@@ -82,7 +82,7 @@ public class HeaderView extends FrameLayout implements OnPullTrigger, OnPullRefr
             }
         }
         if(-y < getMeasuredHeight()){
-            tvRefresh.setText("下拉刷新");
+            tvRefresh.setText(getResources().getString(R.string.text_pull_down_to_refresh));
             if(rotated){
                 ivArrow.clearAnimation();
                 ivArrow.startAnimation(rotateDown);
@@ -99,6 +99,7 @@ public class HeaderView extends FrameLayout implements OnPullTrigger, OnPullRefr
     @Override
     public void onComplete() {
         Log.i(TAG, "onComplete");
+        tvRefresh.setText(getResources().getString(R.string.text_refreshed));
         ivSuccess.setVisibility(VISIBLE);
         ivArrow.clearAnimation();
         ivArrow.setVisibility(GONE);
@@ -121,6 +122,6 @@ public class HeaderView extends FrameLayout implements OnPullTrigger, OnPullRefr
         ivArrow.clearAnimation();
         ivArrow.setVisibility(GONE);
         progressBar.setVisibility(VISIBLE);
-        tvRefresh.setText("刷新中");
+        tvRefresh.setText(getResources().getString(R.string.text_refreshing));
     }
 }

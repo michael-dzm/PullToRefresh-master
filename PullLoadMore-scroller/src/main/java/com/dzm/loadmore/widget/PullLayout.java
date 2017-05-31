@@ -439,7 +439,9 @@ public class PullLayout extends ViewGroup {
             mLoadMoreStatus = STATUS_LOADING;
             mScroller.startScroll(0, getScrollY(), 0, mFooterHeight - getScrollY());
         }else{
-            mLoadMoreStatus = STATUS_LOADED;
+            if(mLoadMoreStatus == STATUS_LOADING){
+                mLoadMoreStatus = STATUS_LOADED;
+            }
             mScroller.startScroll(0, getScrollY(), 0, -getScrollY());
         }
         refreshChildrenView(INVALID_OFFSET);
@@ -454,7 +456,9 @@ public class PullLayout extends ViewGroup {
             mRefreshStatus = STATUS_REFRESHING;
             mScroller.startScroll(0, getScrollY(), 0, -mHeaderHeight - getScrollY());
         }else{
-            mRefreshStatus = STATUS_REFRESHED;
+            if(mRefreshStatus == STATUS_REFRESHING){
+                mRefreshStatus = STATUS_REFRESHED;
+            }
             mScroller.startScroll(0, getScrollY(), 0, -getScrollY());
         }
         refreshChildrenView(INVALID_OFFSET);

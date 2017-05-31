@@ -60,22 +60,21 @@ public class FooterView extends FrameLayout implements OnPullTrigger, OnPullLoad
         ivSuccess.setVisibility(GONE);
         progressBar.setVisibility(GONE);
         if (y >= getMeasuredHeight()) {
-            tvLoadMore.setText("松开加载");
+            tvLoadMore.setText(getResources().getString(R.string.text_release_to_load));
         } else {
-            tvLoadMore.setText("上拉加载");
+            tvLoadMore.setText(getResources().getString(R.string.text_pull_up_to_load));
         }
-
     }
 
     @Override
     public void onRelease() {
         Log.i(TAG, "onRelease");
-
     }
 
     @Override
     public void onComplete() {
         Log.i(TAG, "onComplete");
+        tvLoadMore.setText(getResources().getString(R.string.text_loaded));
         progressBar.setVisibility(GONE);
         ivSuccess.setVisibility(VISIBLE);
     }
@@ -89,7 +88,7 @@ public class FooterView extends FrameLayout implements OnPullTrigger, OnPullLoad
     @Override
     public void onLoadMore() {
         Log.i(TAG, "onLoadMore");
-        tvLoadMore.setText("加载中");
+        tvLoadMore.setText(getResources().getString(R.string.text_loading));
         progressBar.setVisibility(VISIBLE);
     }
 }

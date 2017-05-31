@@ -64,6 +64,11 @@ public class PullActivity extends AppCompatActivity {
                }, 2000);
             }
         });
-        layout.setLoading(true);
+        layout.post(new Runnable() {
+            @Override
+            public void run() {
+                layout.setLoading(true);
+            }
+        });
     }
 }

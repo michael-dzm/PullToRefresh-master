@@ -9,6 +9,7 @@
             android:id="@+id/layout_scroller"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="#e3e3e3"
             app:pull_ratio="0.5">
             <include
                 android:id="@+id/header"
@@ -19,7 +20,7 @@
                 android:id="@+id/target"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#9d9d9d"></ListView>
+                android:background="@android:color/white"/>
             <include
                 android:id="@+id/footer"
                 layout="@layout/footer"

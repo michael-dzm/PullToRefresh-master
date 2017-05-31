@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">PullLoadMore-scroller</string>
+    <string name="text_pull_up_to_load">上拉加载</string>
+    <string name="text_release_to_load">松开加载</string>
+    <string name="text_loading">加载中</string>
+    <string name="text_loaded">加载完成</string>
+    <string name="text_pull_down_to_refresh">下拉刷新</string>
+    <string name="text_release_to_refresh">松开刷新</string>
+    <string name="text_refreshing">刷新中</string>
+    <string name="text_refreshed">刷新完成</string>
 </resources>

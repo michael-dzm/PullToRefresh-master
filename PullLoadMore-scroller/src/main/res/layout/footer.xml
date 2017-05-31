@@ -14,7 +14,8 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginRight="5dp"
-            android:layout_toLeftOf="@+id/tvLoadMore" />
+            android:layout_toLeftOf="@+id/tvLoadMore"
+            android:visibility="gone"/>
 
         <ImageView
             android:id="@+id/ivSuccess"
@@ -23,16 +24,16 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="5dp"
             android:layout_toLeftOf="@+id/tvLoadMore"
-            android:background="@mipmap/refresh_success" />
+            android:background="@mipmap/refresh_success"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/tvLoadMore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:minWidth="80dp"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:text="加载更多"
+            android:text="@string/text_pull_up_to_load"
             android:textColor="?attr/colorPrimary" />
     </RelativeLayout>
 
