@@ -1,6 +1,7 @@
 package com.dzm.loadmore.widget;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
@@ -68,6 +69,10 @@ public class PullLayout extends ViewGroup {
      */
     private static final int INVALID_OFFSET = -1;
     /**
+     * 默认偏移比例
+     */
+    private static final float PULL_RATIO_DEFAULT = 0.5f;
+    /**
      *
      */
     private View mHeaderView;
@@ -121,6 +126,14 @@ public class PullLayout extends ViewGroup {
      */
     private float mLastY;
     /**
+     * 手指按下时的Y坐标
+     */
+    private float mDownY;
+    /**
+     * 偏移比例
+     */
+    private float mPullRatio = PULL_RATIO_DEFAULT;
+    /**
      * 多点触控pointer索引
      */
     private int mActivePointerId;
@@ -133,8 +146,26 @@ public class PullLayout extends ViewGroup {
      */
     private int mRefreshStatus = STATUS_REFRESH_DEFAULT;
 
+    public PullLayout(Context context) {
+        this(context, null);
+    }
+
     public PullLayout(Context context, AttributeSet attrs) {
-        super(context, attrs);
+        this(context, attrs, 0);
+    }
+
+    public PullLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        TypedArray array = null;
+        try {
+            array = context.obtainStyledAttributes(attrs, R.styleable.PullLayout, defStyleAttr, 0);
+            mPullRatio = array.getFloat(array.getIndex(R.styleable.PullLayout_pull_ratio), PULL_RATIO_DEFAULT);
+            if(mPullRatio > 1) mPullRatio = PULL_RATIO_DEFAULT;
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            array.recycle();
+        }
         mScroller = new Scroller(context);
         // 获取TouchSlop值
         mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
@@ -224,7 +255,7 @@ public class PullLayout extends ViewGroup {
         switch (action) {
             case MotionEvent.ACTION_DOWN:
                 mActivePointerId = ev.getPointerId(0);
-                mLastY = getMotionEventY(ev, mActivePointerId);
+                mDownY = mLastY = getMotionEventY(ev, mActivePointerId);
                 break;
             case MotionEvent.ACTION_MOVE:
                 //上拉加载中或下拉刷新中不拦截子控件事件
@@ -235,7 +266,7 @@ public class PullLayout extends ViewGroup {
                     return false;
                 }
                 float y = getMotionEventY(ev, mActivePointerId);
-                float offsetY = y - mLastY;
+                float offsetY = y - mDownY;
                 mLastY = y;
                 // 当手指拖动值大于TouchSlop值时，并且可以下拉刷新或者可以上拉加载 拦截子控件的事件
                 if (Math.abs(offsetY) > mTouchSlop && ((mRefreshEnable && mHasHeaderView && offsetY > 0 && !checkRefreshable()) ||
@@ -245,7 +276,7 @@ public class PullLayout extends ViewGroup {
                 break;
             case MotionEvent.ACTION_POINTER_UP:
                 onSecondaryPointerUp(ev);
-                mLastY = getMotionEventY(ev, mActivePointerId);
+                mDownY = mLastY = getMotionEventY(ev, mActivePointerId);
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
@@ -267,7 +298,7 @@ public class PullLayout extends ViewGroup {
                 float y = getMotionEventY(event, mActivePointerId);
                 int offsetY = (int) (y - mLastY);
                 mLastY = y;
-                scrollBy(0, -offsetY);
+                scrollBy(0, (int)(-offsetY * mPullRatio * (getMeasuredHeight() - Math.abs(getScrollY()))/getMeasuredHeight()));
                 moveChanged(getScrollY());
                 break;
             case MotionEvent.ACTION_UP:
@@ -276,7 +307,7 @@ public class PullLayout extends ViewGroup {
                 break;
             case MotionEvent.ACTION_POINTER_UP:
                 onSecondaryPointerUp(event);
-                mLastY = getMotionEventY(event, mActivePointerId);
+                mDownY = mLastY = getMotionEventY(event, mActivePointerId);
                 break;
             case MotionEvent.ACTION_CANCEL:
                 mActivePointerId = INVALID_POINTER;
@@ -468,14 +499,18 @@ public class PullLayout extends ViewGroup {
     }
 
     public void setPullListener(OnPullListener listener){
-        mOnPullListener = listener;
+        this.mOnPullListener = listener;
     }
 
     public void setLoadMoreEnable(boolean enable){
-        mLoadMoreEnable = enable;
+        this.mLoadMoreEnable = enable;
     }
 
     public void setRefreshEnable(boolean enable){
-        mRefreshEnable = enable;
+        this.mRefreshEnable = enable;
+    }
+
+    public void setPullRatio(float ratio){
+        this.mPullRatio = ratio;
     }
 }

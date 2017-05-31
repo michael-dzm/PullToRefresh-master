@@ -103,7 +103,6 @@ public class HeaderView extends FrameLayout implements OnPullTrigger, OnPullRefr
         ivArrow.clearAnimation();
         ivArrow.setVisibility(GONE);
         progressBar.setVisibility(GONE);
-        tvRefresh.setText("刷新完成");
     }
 
     @Override

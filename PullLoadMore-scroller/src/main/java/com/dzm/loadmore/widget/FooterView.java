@@ -78,8 +78,6 @@ public class FooterView extends FrameLayout implements OnPullTrigger, OnPullLoad
         Log.i(TAG, "onComplete");
         progressBar.setVisibility(GONE);
         ivSuccess.setVisibility(VISIBLE);
-        tvLoadMore.setText("加载更多");
-        int s = getMeasuredHeight();
     }
 
     @Override

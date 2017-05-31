@@ -32,7 +32,7 @@ public class PullActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_pull);
         datas = new ArrayList<>();
-        for (int i=0; i<10; i++){
+        for (int i=0; i<5; i++){
             datas.add("数据" + i);
         }
         target = (ListView) findViewById(R.id.target);
