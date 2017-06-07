@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-        <com.dzm.loadmore.widget.PullLayout
+        <com.sh3h.loadmore.widget.PullLayout
             android:id="@+id/layout_scroller"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -16,6 +16,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@android:color/white" />
-        </com.dzm.loadmore.widget.PullLayout>
+        </com.sh3h.loadmore.widget.PullLayout>
 
 </LinearLayout>

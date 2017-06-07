@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.dzm.recyclerview.widget.PullLoadMoreRecyclerView
+    <com.sh3h.recyclerview.widget.PullLoadMoreRecyclerView
         android:id="@+id/pullLoadMoreRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
