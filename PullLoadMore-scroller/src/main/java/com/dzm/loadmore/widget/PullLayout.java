@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -156,6 +157,12 @@ public class PullLayout extends ViewGroup {
 
     public PullLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        LayoutInflater inflater = LayoutInflater.from(context);
+        mHeaderView = inflater.inflate(R.layout.header, null);
+        mFooterView = inflater.inflate(R.layout.footer, null);
+        MarginLayoutParams lp = new MarginLayoutParams(MarginLayoutParams.MATCH_PARENT, MarginLayoutParams.WRAP_CONTENT);
+        this.addView(mHeaderView, lp);
+        this.addView(mFooterView, lp);
         TypedArray array = null;
         try {
             array = context.obtainStyledAttributes(attrs, R.styleable.PullLayout, defStyleAttr, 0);
@@ -179,12 +186,16 @@ public class PullLayout extends ViewGroup {
             return;
         }
         if(childCount > 3){
-            throw new IllegalStateException("PullLayout's children must no more than 3");
+            throw new IllegalStateException("PullLayout's children must no more than 1");
         }
-        if(0 < childCount  && childCount <= 3){
-            mHeaderView = findViewById(R.id.header);
-            mTargetView = findViewById(R.id.target);
-            mFooterView = findViewById(R.id.footer);
+        if(0 < childCount && childCount <= 3){
+            for(int i=0; i<childCount; i++){
+                final View view = getChildAt(i);
+                if(view instanceof HeaderView || view instanceof FooterView){
+                    continue;
+                }
+                mTargetView = view;
+            }
         }
         mHasHeaderView = (mHeaderView != null);
         mHasFooterView = (mFooterView != null);
@@ -258,10 +269,6 @@ public class PullLayout extends ViewGroup {
                 mDownY = mLastY = getMotionEventY(ev, mActivePointerId);
                 break;
             case MotionEvent.ACTION_MOVE:
-                //上拉加载中或下拉刷新中不拦截子控件事件
-                if(mLoadMoreStatus == STATUS_LOADING || mRefreshStatus == STATUS_REFRESHING){
-                    return false;
-                }
                 if(mActivePointerId == INVALID_POINTER){
                     return false;
                 }
@@ -289,18 +296,22 @@ public class PullLayout extends ViewGroup {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         final int action = MotionEventCompat.getActionMasked(event);
+        //上拉加载中或下拉刷新中不处理事件
+        if(mLoadMoreStatus == STATUS_LOADING || mRefreshStatus == STATUS_REFRESHING){
+            return true;
+        }
         switch (action) {
             case MotionEvent.ACTION_DOWN:
                 mActivePointerId = event.getPointerId(0);
                 downChanged();
-                break;
+                return true;
             case MotionEvent.ACTION_MOVE:
                 float y = getMotionEventY(event, mActivePointerId);
                 int offsetY = (int) (y - mLastY);
                 mLastY = y;
                 scrollBy(0, (int)(-offsetY * mPullRatio * (getMeasuredHeight() - Math.abs(getScrollY()))/getMeasuredHeight()));
                 moveChanged(getScrollY());
-                break;
+                return true;
             case MotionEvent.ACTION_UP:
                 mActivePointerId = INVALID_POINTER;
                 upChanged(getScrollY());

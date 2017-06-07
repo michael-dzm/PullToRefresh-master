@@ -35,7 +35,7 @@ public class PullActivity extends AppCompatActivity {
         for (int i=0; i<5; i++){
             datas.add("数据" + i);
         }
-        target = (ListView) findViewById(R.id.target);
+        target = (ListView) findViewById(R.id.lv);
         target.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, datas));
 
         layout = (PullLayout) findViewById(R.id.layout_scroller);
@@ -67,7 +67,7 @@ public class PullActivity extends AppCompatActivity {
         layout.post(new Runnable() {
             @Override
             public void run() {
-                layout.setLoading(true);
+                layout.setRefreshing(true);
             }
         });
     }
