@@ -166,8 +166,8 @@ public class PullLayout extends ViewGroup {
         TypedArray array = null;
         try {
             array = context.obtainStyledAttributes(attrs, R.styleable.PullLayout, defStyleAttr, 0);
-            mPullRatio = array.getFloat(array.getIndex(R.styleable.PullLayout_pull_ratio), PULL_RATIO_DEFAULT);
-            if(mPullRatio > 1) mPullRatio = PULL_RATIO_DEFAULT;
+            mPullRatio = array.getFloat(array.getIndex(R.styleable.PullLayout_pull_ratio), -1f);
+            if(mPullRatio == -1 || mPullRatio > 1) mPullRatio = PULL_RATIO_DEFAULT;
         }catch (Exception e){
             e.printStackTrace();
         }finally {
